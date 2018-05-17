@@ -1,8 +1,7 @@
-
 import sys
 import requests
 
-url ='http://ec2-18-188-142-193.us-east-2.compute.amazonaws.com/api/add_message/1234'
+url ='http://127.0.0.1:5000/api/add_message/1234'
 
 def run(path):    
     with open(path, 'r') as myfile:
