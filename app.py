@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from datetime import datetime
 from qvm import vm
 from qvm.vm import isolate_qubit
@@ -7,29 +7,11 @@ import re
 import requests
 import os
 
-name = "hello"
-f'He said his name is {name!r}.'
-
- 
-app = Flask(__name__)
- 
+app = Flask(__name__) 
 
 @app.route('/')
 def homepage():
-    return render_template('index.html')
-
-@app.route('/compiler')
-def compiler():
-    return render_template('compiler.html')
-
-@app.route('/qpl')
-def qpl():
-    return render_template('qpl.html')
-
-@app.route('/vm')
-def vm():
-    return render_template('vm.html')
-
+    return "QVM is online"
 
 @app.route('/api/add_message/<uuid>', methods=['GET', 'POST'])
 def add_message(uuid):
@@ -127,10 +109,6 @@ Z 3"""
 
     msg = isolate_qubit(wvf, 3)
     return jsonify({"program" : p, 'wvf' : msg})
-
-@app.route('/teleportation', methods=['GET', 'POST'])
-def teleporation():
-    return render_template('teleportation.html')
  
 if __name__ == "__main__":
  app.run(host="0.0.0.0")
