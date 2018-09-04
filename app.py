@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from datetime import datetime
-from qvm import vm
-from qvm.vm import isolate_qubit
+from kite import vm
+from kite.vm import isolate_qubit
 import program
 import re
 import requests

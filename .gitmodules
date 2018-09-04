@@ -1,0 +1,3 @@
+[submodule "eagle"]
+	path = eagle
+	url = git@github.com:QCHackers/eagle.git

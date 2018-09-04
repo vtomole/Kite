@@ -1,4 +1,4 @@
-from qvm import vm
+from kite import vm
 
 class Program:
     "Consists of a list of instructions"
