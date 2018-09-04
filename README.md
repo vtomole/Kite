@@ -2,9 +2,10 @@
 Contact: qchackers@gmail.com
 
 # Getting started
-
-1. kite$ docker build -t kite .
-2. kite$ docker run -d -p 5000:5000 kite
+```
+kite$ docker build -t kite .
+kite$ docker run -d -p 5000:5000 kite
+```
 
 ``` python
 from eagle import api
