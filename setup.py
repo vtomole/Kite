@@ -8,7 +8,8 @@ setup(
     url="https://github.com/QCHackers/kite.git",
     description="Quantum Programming library in Python",
     packages=[
-        "kite"
+        "kite",
+        "eagle",
     ],
     install_requires=[
         "numpy >= 1.14",

@@ -16,29 +16,9 @@ def homepage():
 @app.route('/api/add_message/<uuid>', methods=['GET', 'POST'])
 def add_message(uuid):
     content = request.json
-    print (content['mytext'])
     p = content['mytext']
-   
-    #os.chmod("program.txt", 777)
-
-    text_file = open("compiler/program.txt", "w")
-    #os.chmod("program.txt", "w")
-    print(os.getcwd())
-    text_file.write(p)
-    text_file.close()
-    os.system ("bash -c './compiler/compile.lisp compiler/program.txt'")
-
-    os.system ("bash -c 'python compiler/preprocessor.py compiler/a.ir'")
-    
-    with open('compiler/a.eg', 'r') as myfile:
-        p=myfile.read()
-
     wvf, msg = program.run(p)
-    #os.chdir("/var/www/qc-hack-isu/")
-    #msg = "Hi"
     return jsonify({"results" : msg})
-
-
 
 @app.route('/api/teleportsend', methods=['get', 'post'])
 def teleportsend():

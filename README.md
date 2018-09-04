@@ -6,9 +6,26 @@ Contact: qchackers@gmail.com
 1. kite$ docker build -t kite .
 2. kite$ docker run -d -p 5000:5000 kite
 
+``` python
+from eagle import api
+from eagle.api import *
 
-Now that you have built the interpreter you can start writing programs.
+circuit = api.Program(
+    QREG(1),
+    X(0),
+    MEASURE(0))
 
-Open up a file call hello.c48 and write this
+circuit.eval()
+```
+
+Output
+
+```
+wavefunction before measurement: 1|10>
+====== MEASURE qubit 0 : 1
+wavefunction after measurement: 1.0|10>
+
+Final wavefunction:
+1.0|10>
 
 ```
