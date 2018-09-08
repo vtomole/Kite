@@ -1,6 +1,7 @@
 import numpy as np
 from .qubit import Qubit
 
+
 class QuantumComputer:
     "Defines a quantum computer. Contains a wavefunction, quantum register, and classical register"
     cregister = []
@@ -11,10 +12,10 @@ class QuantumComputer:
     wvf = ket_zero
 
     bell_states = {
-        "B00" : "0.71|00> + 0.71|11>",
-        "B01" : "0.71|01> + 0.71|10>",
-        "B10" : "0.71|00> + -0.71|11>",
-        "B11" : "0.71|01> + -0.71|10>",
+        "B00": "0.71|00> + 0.71|11>",
+        "B01": "0.71|01> + 0.71|10>",
+        "B10": "0.71|00> + -0.71|11>",
+        "B11": "0.71|01> + -0.71|10>",
     }
 
     def __init__(self, size):

@@ -15,21 +15,26 @@ np.random.seed(int(time()))
 # @TODO revisit overall architecture
 # @TODO Better print helper functions
 
+
 def two_n_size(wvf):
     "wvf = 2^n. Solve for n"
-    return  int(np.log(len(wvf))/np.log(2))
+    return int(np.log(len(wvf))/np.log(2))
+
 
 def wavefunction(wvf):
     "Returns the wavefunction in dirac notation"
-    perm_list = ["".join(seq) for seq in itertools.product("01", repeat = int(np.log2(len(wvf))))]
+    perm_list = ["".join(seq) for seq in itertools.product(
+        "01", repeat=int(np.log2(len(wvf))))]
     wvf_string = ""
     for x in range(0, len(perm_list)):
         if wvf[x, 0] != 0:
-            wvf_string += str(np.around(wvf[x,0], decimals = 2)) +  "|" + perm_list[x] + "> + "
+            wvf_string += str(np.around(wvf[x, 0], decimals=2)
+                              ) + "|" + perm_list[x] + "> + "
     wvf_string = re.split(r'(\s+)', wvf_string)[:-4]
     wvf_string = "".join(wvf_string)
 
     return wvf_string
+
 
 def i_gen(num):
     "Generates the tensor product of num identity gates"
@@ -38,6 +43,7 @@ def i_gen(num):
         for x in range(1, num):
             gates = np.kron(Gates.I, gates)
     return gates
+
 
 def append_gate(qubit, qubit1, QC):
     "Adds gate to apply_gates list to help with printing the wavefunction"
@@ -56,6 +62,7 @@ def get_base_gate(gate_str, Gates):
     else:
         raise Exception("Gate not implemented")
 
+
 def build_gate(addr, wvf_size, x, spacing_num):
     #print(f"==== {addr} \n {wvf_size} \n {x} \n {spacing_num}")
     "Generates the tensor product of quantum gate and spacing_num identity gates"
@@ -72,9 +79,10 @@ def build_gate(addr, wvf_size, x, spacing_num):
 
     return gate
 
-def apply_gate(qubit, wvf, gate_str, Gates, QC, qubit1 = None):
+
+def apply_gate(qubit, wvf, gate_str, Gates, QC, qubit1=None):
     "Performs quantum gate operation on the wavefunction"
-    #@TODO This is a little confusing - address can theoretically be arbitrary
+    # @TODO This is a little confusing - address can theoretically be arbitrary
     addr = int(qubit.address)
     wvf_size = two_n_size(wvf)
     # space 0 = Command
@@ -100,27 +108,28 @@ def apply_gate(qubit, wvf, gate_str, Gates, QC, qubit1 = None):
 
     return wvf
 
-def proj(qubit,basis, wvf, QC):
+
+def proj(qubit, basis, wvf, QC):
     "Computes the projector ono the wavefunction: P_(w_i) = |w_i><w_i|"
 
     addr = int(qubit.address)
     wvf_size = two_n_size(wvf) - 1
 
     if basis == 0:
-        proj = np.outer(QC.ket_zero , QC.ket_zero)
+        proj = np.outer(QC.ket_zero, QC.ket_zero)
     else:
-        proj = np.outer(QC.ket_one , QC.ket_one)
-
+        proj = np.outer(QC.ket_one, QC.ket_one)
 
     if addr == 0:
         proj = np.kron(proj, i_gen(wvf_size))
     elif addr == wvf_size:
-         proj = np.kron(i_gen(addr), proj)
+        proj = np.kron(i_gen(addr), proj)
     else:
         proj = np.kron(i_gen(addr), proj)
         proj = np.kron(proj, i_gen(wvf_size - addr))
 
     return proj
+
 
 def pr(qubit, wvf, basis, QC):
     "Computes probability of getting an outcome: Pr(|w_i>) = <v|Pw_i|v>"
@@ -129,7 +138,8 @@ def pr(qubit, wvf, basis, QC):
     ket = proj(qubit, basis, wvf, QC) * wvf
     answer = wvf_bra * ket
 
-    return answer[0,0]
+    return answer[0, 0]
+
 
 def MEASURE(qubit, wvf, QC):
     "Performs a measurement on the qubit and modifies the wavefunction: |new wvf> = P_(w_i)|v/sqrt(Pr(|w_i>) "
@@ -140,18 +150,20 @@ def MEASURE(qubit, wvf, QC):
     pr_one = pr(qubit, wvf, 1, QC)
 
     sum = pr_zero + pr_one
-    assert (round(sum) == 1.0),"Sum of probabilites does not equal 1"
+    assert (round(sum) == 1.0), "Sum of probabilites does not equal 1"
     pr_val = [pr_zero, pr_one]
 
     collapsed_val = 0 if random.random() <= pr_zero else 1
     msg += f"wavefunction before measurement: {wavefunction(wvf)}\n"
-    wvf = (proj(qubit, collapsed_val, wvf, QC) * wvf) / (np.sqrt(pr_val[collapsed_val]))
+    wvf = (proj(qubit, collapsed_val, wvf, QC) * wvf) / \
+        (np.sqrt(pr_val[collapsed_val]))
     qubit.measurement = collapsed_val
     QC.set_cregister(int(qubit.address), collapsed_val)
     msg += f"====== MEASURE qubit {addr} : {collapsed_val}\n"
     msg += f"wavefunction after measurement: {wavefunction(wvf)}\n\n"
 
     return wvf, msg
+
 
 def isolate_qubit(wvf, qubit):
     """ Extract just a qubit from a wavefunction eg:
@@ -171,6 +183,7 @@ def isolate_qubit(wvf, qubit):
             qbit_str += matches[0][0] + "|" + matches[0][1] + "> + "
 
     return qbit_str[:-3]
+
 
 def evaluate(program, option):
     "Executes program in file"
@@ -209,12 +222,14 @@ def evaluate(program, option):
                 wv, measure_msg = MEASURE(QC.qregister[int(qubit)], wv, QC)
                 msg += measure_msg
             else:
-                wv = apply_gate(QC.qregister[int(qubit)], wv, operator, Gates, QC, None)
+                wv = apply_gate(
+                    QC.qregister[int(qubit)], wv, operator, Gates, QC, None)
         elif nArgs == 3:
             qubit = int(args[1])
             qubit1 = int(args[2])
             # @TODO Support rotation gates with rotation values for arg[1]
-            wv = apply_gate(QC.qregister[int(qubit)], wv, operator, Gates, QC, QC.qregister[int(qubit1)])
+            wv = apply_gate(
+                QC.qregister[int(qubit)], wv, operator, Gates, QC, QC.qregister[int(qubit1)])
         elif nArgs == 4:
             register = int(args[1])
             value = int(args[2])
@@ -233,5 +248,7 @@ def evaluate(program, option):
 
     msg += f"Final wavefunction: \n{wavefunction(wv)}"
     return wv, msg
+
+
 if __name__ == "__main__":
     evaluate(sys.argv[1], "file")
