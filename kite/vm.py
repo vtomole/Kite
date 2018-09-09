@@ -246,7 +246,7 @@ def evaluate(program, option):
         else:
             raise Exception("Exit(1)")
 
-    msg += f"Final wavefunction: \n{wavefunction(wv)}"
+    msg += f"{wavefunction(wv)}"
     return wv, msg
 
 

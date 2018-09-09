@@ -5,9 +5,8 @@ cache: pip
 install:
   - pip install -r requirements.txt
 script:
-  -  ls
-  -  python kite/test_wavefunction.py
-
+  -  pytest
+  
 # Handle git submodules
 git:
     submodules: false
