@@ -1,5 +1,5 @@
-from eagle import api
-from eagle.api import *
+from kite import api
+from kite.api import *
 
 circuit = api.Program(
     QREG(2),
