@@ -1,7 +1,7 @@
-from kite import api
-from kite.api import *
+import kite as kt
+from kite import *
 
-circuit = api.Program(
+circuit = kt.Program(
     QREG(2),
     X(0),
     MEASURE(0))

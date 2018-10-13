@@ -12,5 +12,6 @@ setup(
     ],
     install_requires=[
         "numpy >= 1.14",
+        "networkx",
     ],
 )
