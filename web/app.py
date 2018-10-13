@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from datetime import datetime
 from kite import vm
 from kite.vm import isolate_qubit
-import program
+from kite import program
 import re
 import requests
 import os
