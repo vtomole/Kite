@@ -1,23 +1,21 @@
+"""Defines the Gate class"""
 import numpy as np
 
 
 class Gates:
-    "Contains basic quantum gates"
-
-    def round(self, x):
-        return np.around(x, decimals=10)
-
+    """"Contains basic quantum gates"""
+    
     # Rotation
     def RX(self, theta):
         return np.matrix([[np.cos(theta / 2), -1j * np.sin(theta / 2)],
                           [-1j * np.sin(theta / 2), np.cos(theta / 2)]])
 
     def RY(self, theta):
-        return np.matrix([[np.cos(theta / 2),  -np.sin(theta / 2)],
+        return np.matrix([[np.cos(theta / 2), -np.sin(theta / 2)],
                           [np.sin(theta / 2), np.cos(theta / 2)]])
 
     def RZ(self, theta):
-        return np.matrix([[np.exp(-1j * theta / 2),  0],
+        return np.matrix([[np.exp(-1j * theta / 2), 0],
                           [0, np.exp(1j * theta / 2)]])
 
     # pauli

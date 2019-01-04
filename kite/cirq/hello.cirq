@@ -1,2 +1,0 @@
-cirq.X(qubit)  # Square root of NOT.
-cirq.measure(qubit, key='m')  # Measurement.

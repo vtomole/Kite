@@ -1,11 +1,11 @@
-import numpy as np
-from time import time
-import sys
-import random
-import itertools
+"""QASM intepreter"""
 import re
+import sys
+import itertools
+import random
+from time import time
+import numpy as np
 from .gates import Gates
-#from .quantumcomputer import QuantumComputer
 
 np.random.seed(int(time()))
 
@@ -16,7 +16,7 @@ class Qubit:
     def __init__(self, address):
         self.address = address
         self.measurement = None
-        
+
 class QuantumComputer:
     "Defines a quantum computer. Contains a wavefunction, quantum register, and classical register"
     cregister = []
@@ -66,8 +66,8 @@ def wavefunction(wvf):
     wvf_string = ""
     for x in range(0, len(perm_list)):
         if wvf[x, 0] != 0:
-            wvf_string += str(np.around(wvf[x, 0], decimals=2)
-                              ) + "|" + perm_list[x] + "> + "
+            wvf_string += str(np.around(wvf[x, 0], decimals=2) \
+            ) + "|" + perm_list[x] + "> + "
     wvf_string = re.split(r'(\s+)', wvf_string)[:-4]
     wvf_string = "".join(wvf_string)
 
@@ -78,7 +78,7 @@ def i_gen(num):
     "Generates the tensor product of num identity gates"
     gates = Gates.I
     if num > 0:
-        for x in range(1, num):
+        for _ in range(1, num):
             gates = np.kron(Gates.I, gates)
     return gates
 
@@ -180,15 +180,15 @@ def pr(qubit, wvf, basis, QC):
 
 
 def MEASURE(qubit, wvf, QC):
-    "Performs a measurement on the qubit and modifies the wavefunction: |new wvf> = P_(w_i)|v/sqrt(Pr(|w_i>) "
+    """Performs a measurement on the qubit and 
+    modifies the wavefunction: |new wvf> = P_(w_i)|v/sqrt(Pr(|w_i>)"""
 
     msg = ""
     addr = qubit.address
     pr_zero = pr(qubit, wvf, 0, QC)
     pr_one = pr(qubit, wvf, 1, QC)
-
-    sum = pr_zero + pr_one
-    assert (round(sum) == 1.0), "Sum of probabilites does not equal 1"
+    
+    assert (round(pr_zero + pr_one) == 1.0), "Sum of probabilites does not equal 1"
     pr_val = [pr_zero, pr_one]
 
     collapsed_val = 0 if random.random() <= pr_zero else 1
@@ -210,11 +210,11 @@ def isolate_qubit(wvf, qubit):
 
     qbit_str = ""
     wvf_slist = wavefunction(wvf).split(' + ')
-    regex_str = "(-?\d+\.\d+)\|"
-    for i in range(0, qubit):
-        regex_str += '\d'
+    regex_str = r"(-?\d+\.\d+)\|"
+    for _ in range(0, qubit):
+        regex_str += r'\d'
 
-    regex_str += '(\d)'
+    regex_str += r'(\d)'
     for wvf_part in wvf_slist:
         matches = re.findall(regex_str, wvf_part)
         if not matches is None:
@@ -241,20 +241,19 @@ def evaluate(program, option):
         raise ValueError('Program must start with QUBITS {num_qubits}')
     else:
         num_qubits = int(args[1])
-        if not num_qubits > 0:
+        if num_qubits <= 0:
             raise ValueError('Number of qubits must be an integer > 0')
 
     QC = QuantumComputer(int(num_qubits))
     gates = Gates()
     wv = QC.wvf
-
-    enumerated_instructions = enumerate(fp)
-    for (index, line) in enumerated_instructions:
+    
+    for line in fp:
         args = line.split()
-        nArgs = len(args)
+        num_args = len(args)
         operator = args[0]
 
-        if nArgs == 2:
+        if num_args == 2:
             qubit = int(args[1])
             if operator == "MEASURE":
                 wv, measure_msg = MEASURE(QC.qregister[int(qubit)], wv, QC)
@@ -262,25 +261,20 @@ def evaluate(program, option):
             else:
                 wv = apply_gate(
                     QC.qregister[int(qubit)], wv, operator, Gates, QC, None)
-        elif nArgs == 3:
+        elif num_args == 3:
             qubit = int(args[1])
             qubit1 = int(args[2])
             # @TODO Support rotation gates with rotation values for arg[1]
             wv = apply_gate(
                 QC.qregister[int(qubit)], wv, operator, Gates, QC, QC.qregister[int(qubit1)])
-        elif nArgs == 4:
+        elif num_args == 4:
             register = int(args[1])
             value = int(args[2])
-            following_lines = int(args[3])
             print(register)
             print(QC.get_creg_val(register))
             print(operator)
             if operator == "CLASSICAL":
                 print(f"{value} ---- {QC.get_creg_val(register)}")
-                if value != QC.get_creg_val(register):
-                    for i in range(following_lines):
-                        next(enumerated_instructions, None)
-
         else:
             raise Exception("Exit(1)")
 

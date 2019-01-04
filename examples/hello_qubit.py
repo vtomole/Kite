@@ -6,4 +6,4 @@ circuit = kt.Program(
     X(0),
     MEASURE(0))
 
-circuit.eval()
+print("Circuit ", circuit.run())
