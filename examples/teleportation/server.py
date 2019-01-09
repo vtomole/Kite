@@ -1,4 +1,6 @@
 """
+Requirements Installation:
+                                $ sudo pip3 install bottle
 Usage:
         To run the server:
                                 $ python3 server.py
