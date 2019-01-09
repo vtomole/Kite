@@ -1,22 +1,21 @@
 # Kite
-Contact: qchackers@gmail.com
+Contact: vtomole@iastate.edu
 
 # Getting started
 ```
-kite$ docker build -t kite .
-kite$ docker run -d -p 5000:5000 kite
+kite$ pip install e .
 ```
 
 ``` python
-from eagle import api
-from eagle.api import *
+import kite as kt
+from kite import *
 
-circuit = api.Program(
-    QREG(1),
+circuit = kt.Program(
+    QREG(2),
     X(0),
     MEASURE(0))
 
-circuit.eval()
+print("Circuit ", circuit.run())
 ```
 
 Output

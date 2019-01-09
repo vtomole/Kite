@@ -1,15 +1,12 @@
-import sys
-import requests
-
+"""Defines program object"""
 from kite import vm
-
 
 def H(qubit):
     return "H " + str(qubit) + "\n"
 
 
-def QREG(n):
-    return "QUBITS " + str(n) + "\n"
+def QREG(num_qubits):
+    return "QUBITS " + str(num_qubits) + "\n"
 
 
 def X(qubit):
@@ -31,18 +28,7 @@ class Program:
         program = "". join(instructions)
 
         self.instructions = program
-
-    def eval(self):
-        p = API()
-
-        return p.run(self.instructions)
-    
+        
     def run(self):
-         a, b = vm.evaluate(self.instructions, "string")
-         print(b)
-
-
-if __name__ == "__main__":
-
-    p = API()
-    p.run_file(sys.argv[1])
+        return vm.evaluate(self.instructions, "string")[1]
+        
