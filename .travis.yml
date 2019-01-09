@@ -1,16 +1,18 @@
+sudo: false
 language: python
-python:
-  - "3.6"
-cache: pip
-install:
-  - pip install -r requirements.txt
-script:
-  -  pytest
-  
-# Handle git submodules
-git:
-    submodules: false
-# Replace the SSH URL with the public URL, then initialize submodules
+
+branches:
+  only:
+    - master
+
 before_install:
-    - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
-    - git submodule update --init --recursive
+  - pip install --upgrade pip setuptools wheel
+
+matrix:
+  include:
+  - os: linux
+    env: NAME=pylint
+    python: "3.5.2"
+    install:
+      - cat dev_tools/conf/pip-list-dev-tools.txt | grep pylint | xargs pip install
+    script: check/pylint
