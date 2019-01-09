@@ -1,9 +1,9 @@
 import kite as kt
-from kite import *
 
 circuit = kt.Program(
-    QREG(2),
-    X(0),
-    MEASURE(0))
+    kt.QREG(2),
+    kt.X(0),
+    kt.MEASURE(0))
 
-print("Circuit ", circuit.run())
+before, after = circuit.run()
+print("Circuit ", after)

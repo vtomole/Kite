@@ -2,13 +2,12 @@
 import re
 import sys
 import itertools
-import random
 from time import time
 import numpy as np
-from .gates import Gates
+from kite.gates import Gates
 
-np.random.seed(int(time()))
-
+# Pseudo-Random Number Generator Stream no. 1
+PRNGS1 = np.random.RandomState()
 
 class Qubit:
     "Define a qubit"
@@ -191,7 +190,7 @@ def MEASURE(qubit, wvf, QC):
     assert (round(pr_zero + pr_one) == 1.0), "Sum of probabilites does not equal 1"
     pr_val = [pr_zero, pr_one]
 
-    collapsed_val = 0 if random.random() <= pr_zero else 1
+    collapsed_val = 0 if PRNGS1.rand() <= pr_zero else 1
     msg += f"wavefunction before measurement: {wavefunction(wvf)}\n"
     wvf = (proj(qubit, collapsed_val, wvf, QC) * wvf) / \
         (np.sqrt(pr_val[collapsed_val]))
@@ -218,7 +217,7 @@ def isolate_qubit(wvf, qubit):
     for wvf_part in wvf_slist:
         matches = re.findall(regex_str, wvf_part)
         if not matches is None:
-            qbit_str += matches[0][0] + "|" + matches[0][1] + "> + "
+            qbit_str += f"{matches[0][0]}|{matches[0][1]}> + "
 
     return qbit_str[:-3]
 

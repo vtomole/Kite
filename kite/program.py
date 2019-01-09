@@ -23,26 +23,30 @@ def CNOT(qubit, qubit1):
 def MEASURE(qubit):
     return "MEASURE " + str(qubit) + "\n"
 
+class API:
+    "Provides a file API and a CLI API to the VM"
+
+    @classmethod
+    def file_api(self, file_name):
+        a, b = vm.evaluate(file_name, "file")
+        return a, b
+        
+    @classmethod
+    def cli_api(self, instructions_string):
+            a, b = vm.evaluate(instructions_string, "string")
+            return a, b
 
 class Program:
     "Consists of a list of instructions"
 
     def __init__(self, *instructions):
         program = "". join(instructions)
-
         self.instructions = program
-
-    def eval(self):
-        p = API()
-
-        return p.run(self.instructions)
     
     def run(self):
-         a, b = vm.evaluate(self.instructions, "string")
-         print(b)
+        return API.cli_api(self.instructions)
 
 
 if __name__ == "__main__":
-
-    p = API()
-    p.run_file(sys.argv[1])
+    result = API.file_api(sys.argv[1])
+    print(result)
