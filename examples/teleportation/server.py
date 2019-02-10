@@ -11,7 +11,7 @@ Usage:
                                 refresh the web page
 """
 import os
-from bottle import route, template, redirect, run, error, request, response, static_file
+from bottle import route, template, run, request
 
 
 class global_values:

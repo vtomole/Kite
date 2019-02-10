@@ -4,7 +4,7 @@ import numpy as np
 
 class Gates:
     """"Contains basic quantum gates"""
-    
+
     # Rotation
     def RX(self, theta):
         return np.matrix([[np.cos(theta / 2), -1j * np.sin(theta / 2)],
