@@ -14,5 +14,5 @@ matrix:
     env: NAME=pylint
     python: "3.5.2"
     install:
-      - cat dev_tools/conf/pip-list-dev-tools.txt | grep pylint | xargs pip install
-    script: check/pylint
+      - cat tools/conf/pip-list-dev-tools.txt | grep pylint | xargs pip install
+    script: tools/pylint

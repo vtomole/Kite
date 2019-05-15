@@ -1,14 +1,19 @@
 #!/usr/bin/env bash
 
 ################################################################################
-# Runs pylint on the repository using a preconfigured .pylintrc file.
+# Runs mypy on the repository using a preconfigured mypy.ini file.
 #
 # Usage:
-#     check/pylint [--flags]
+#     check/mypy [--flags]
 ################################################################################
 
 # Get the working directory to the repo root.
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $(git rev-parse --show-toplevel)
 
-pylint --rcfile=tools/conf/.pylintrc $@ kite tools examples
+echo -e -n "\e[31m"
+mypy --config-file=dev_tools/conf/mypy.ini $@ .
+result=$?
+echo -e -n "\e[0m"
+
+exit ${result}

@@ -2,7 +2,6 @@
 import re
 import sys
 import itertools
-from time import time
 import numpy as np
 from kite.gates import Gates
 
@@ -17,7 +16,8 @@ class Qubit:
         self.measurement = None
 
 class QuantumComputer:
-    "Defines a quantum computer. Contains a wavefunction, quantum register, and classical register"
+    """Defines a quantum computer. Contains
+    a wavefunction, quantum register, and classical register"""
     cregister = []
     qregister = []
     applied_gates = []
@@ -48,7 +48,8 @@ class QuantumComputer:
 
 # @TODO Document code
 # @TODO Implement try/catch where appropriate
-# @TODO Figure out importing scheme so both top level can import as well as the ability to run tests
+# @TODO Figure out importing scheme so both top level can
+# import as well as the ability to run tests
 # @TODO revisit overall architecture
 # @TODO Better print helper functions
 
@@ -102,7 +103,8 @@ def get_base_gate(gate_str, Gates):
 
 def build_gate(addr, wvf_size, x, spacing_num):
     #print(f"==== {addr} \n {wvf_size} \n {x} \n {spacing_num}")
-    "Generates the tensor product of quantum gate and spacing_num identity gates"
+    """Generates the tensor product of quantum gate
+    and spacing_num identity gates"""
 
     gate = x
     if addr == 0:
@@ -179,15 +181,16 @@ def pr(qubit, wvf, basis, QC):
 
 
 def MEASURE(qubit, wvf, QC):
-    """Performs a measurement on the qubit and 
+    """Performs a measurement on the qubit and
     modifies the wavefunction: |new wvf> = P_(w_i)|v/sqrt(Pr(|w_i>)"""
 
     msg = ""
     addr = qubit.address
     pr_zero = pr(qubit, wvf, 0, QC)
     pr_one = pr(qubit, wvf, 1, QC)
-    
-    assert (round(pr_zero + pr_one) == 1.0), "Sum of probabilites does not equal 1"
+
+    assert (round(pr_zero + pr_one) == 1.0), "Sum of probabilites \
+    does not equal 1"
     pr_val = [pr_zero, pr_one]
 
     collapsed_val = 0 if PRNGS1.rand() <= pr_zero else 1
@@ -246,7 +249,7 @@ def evaluate(program, option):
     QC = QuantumComputer(int(num_qubits))
     gates = Gates()
     wv = QC.wvf
-    
+
     for line in fp:
         args = line.split()
         num_args = len(args)
@@ -265,7 +268,8 @@ def evaluate(program, option):
             qubit1 = int(args[2])
             # @TODO Support rotation gates with rotation values for arg[1]
             wv = apply_gate(
-                QC.qregister[int(qubit)], wv, operator, Gates, QC, QC.qregister[int(qubit1)])
+                QC.qregister[int(qubit)], wv, operator, Gates,
+                QC, QC.qregister[int(qubit1)])
         elif num_args == 4:
             register = int(args[1])
             value = int(args[2])

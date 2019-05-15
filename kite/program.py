@@ -1,4 +1,6 @@
 """Defines program object"""
+import sys
+
 from kite import vm
 
 def H(qubit):
@@ -27,11 +29,11 @@ class API:
     def file_api(self, file_name):
         a, b = vm.evaluate(file_name, "file")
         return a, b
-        
+
     @classmethod
     def cli_api(self, instructions_string):
-            a, b = vm.evaluate(instructions_string, "string")
-            return a, b
+        a, b = vm.evaluate(instructions_string, "string")
+        return a, b
 
 class Program:
     "Consists of a list of instructions"
@@ -39,7 +41,7 @@ class Program:
     def __init__(self, *instructions):
         program = "". join(instructions)
         self.instructions = program
-    
+
     def run(self):
         return API.cli_api(self.instructions)
 
