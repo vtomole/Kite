@@ -16,7 +16,7 @@ matrix:
   include:
   - os: linux
     env: NAME=pylint
-    python: "3.7.0"
+    python: "3.6"
     install:
       - cat tools/conf/pip-list-dev-tools.txt | grep pylint | xargs pip install
       - pip install -r requirements.txt
