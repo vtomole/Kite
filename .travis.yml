@@ -19,4 +19,5 @@ matrix:
     python: "3.5.2"
     install:
       - cat tools/conf/pip-list-dev-tools.txt | grep pylint | xargs pip install
+      - pip install -r requirements.txt
     script: pytest --benchmark-autosave --benchmark-only && cd cd .benchmarks/Linux-CPython-3.6-64bit && ls
