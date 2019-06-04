@@ -19,4 +19,4 @@ matrix:
     python: "3.6"
     install:
       - pip install -r requirements.txt
-    script: pytest --benchmark-autosave --benchmark-only && cd cd .benchmarks/Linux-CPython-3.6-64bit && ls
+    script: pytest kite/test.py --benchmark-autosave --benchmark-only && cd  .benchmarks/Linux-CPython-3.6-64bit && ls
