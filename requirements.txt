@@ -3,3 +3,5 @@ Flask-Cors==3.0.3
 gunicorn
 numpy
 requests
+pytest==4.3.1
+pytest-benchmark==3.2.2

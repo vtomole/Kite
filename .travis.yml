@@ -1,6 +1,10 @@
 sudo: false
 language: python
 
+cache:
+  directories:
+    - .benchmarks
+
 branches:
   only:
     - master
@@ -12,7 +16,7 @@ matrix:
   include:
   - os: linux
     env: NAME=pylint
-    python: "3.5.2"
+    python: "3.6"
     install:
-      - cat tools/conf/pip-list-dev-tools.txt | grep pylint | xargs pip install
-    script: tools/pylint
+      - pip install -r requirements.txt
+    script: pytest kite/test.py --benchmark-autosave --benchmark-only && cd .benchmarks/Linux-CPython-3.6-64bit && ls -t | tail -n +2 | xargs rm -- && ls
