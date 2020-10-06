@@ -1,20 +1,36 @@
-# For transpilation to python 2.
-3to2==1.*
-
 # For testing and analyzing code.
-mypy==0.641.*
-pylint==2.1.*
-pytest==3.6.*
-pytest-cov==2.5.*
+mypy~=0.782.0
+pylint~=2.3.0
+pytest~=5.4.1
+pytest-asyncio~=0.12.0
+pytest-cov~=2.5.0
+pytest-benchmark~=3.2.0
+yapf~=0.27.0
+
+# For generating protobufs
+grpcio-tools~=1.24.0
+mypy-protobuf==1.10
 
 # For uploading packages to pypi.
 twine
 
+# For verifying behavior of Quil output.
+pyquil~=2.21.0
+
 # For verifying behavior of qasm output.
-qiskit==0.6.*
+qiskit~=0.13.0
 
 # For generating documentation.
 pypandoc
 recommonmark >= 0.4.0
-Sphinx
+Sphinx~=3.2.0
 sphinx_rtd_theme
+sphinx-markdown-tables
+
+# For generating notebooks in documentation
+nbsphinx
+ipython
+ipykernel
+
+# For verifying rst
+rstcheck~=3.3.1
