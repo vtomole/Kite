@@ -2,8 +2,6 @@ import cirq
 
 from kite.teleportation import gate_teleportation_compiler
 
-# c = cirq.Circuit(cirq.CX(q0[0], q1[0]), cirq.CX(q0[0], q1[0]))
-
 
 def test_bell():
     sim = cirq.CliffordSimulator()
