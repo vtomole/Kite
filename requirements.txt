@@ -1,4 +1,5 @@
 Flask
+cirq
 gunicorn
 numpy
 requests
