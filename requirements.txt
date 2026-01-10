@@ -4,3 +4,4 @@ numpy
 requests
 pytest
 pytest-benchmark
+black[jupyter]
